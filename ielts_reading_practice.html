@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ms Lê Hằng English - IELTS Reading Practice</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        },
+                        gamify: {
+                            green: '#22c55e',
+                            greenDark: '#15803d',
+                            red: '#ef4444',
+                            redDark: '#b91c1c',
+                            yellow: '#eab308',
+                            purple: '#a855f7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            user-select: text;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Highlight styles */
+        ::selection {
+            background-color: #d8b4fe !important;
+            color: #581c87 !important;
+        }
+        .user-highlight {
+            background-color: #e9d5ff;
+            color: #581c87;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Target animation for evidence location */
+        @keyframes pulse-highlight {
+            0% { background-color: #fef08a; transform: scale(1); }
+            50% { background-color: #fde047; transform: scale(1.02); }
+            100% { background-color: #fef08a; transform: scale(1); }
+        }
+        .evidence-target {
+            animation: pulse-highlight 1.5s infinite;
+            border-left: 4px solid #eab308;
+            padding-left: 8px;
+            border-radius: 4px;
+        }
+
+        /* Gamified 3D Buttons */
+        .btn-3d {
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 0 0 rgba(0,0,0,0.2);
+        }
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 0 rgba(0,0,0,0.2);
+        }
+
+        .btn-3d-green {
+            background-color: #22c55e;
+            box-shadow: 0 4px 0 0 #15803d;
+        }
+        .btn-3d-green:hover { background-color: #4ade80; }
+        .btn-3d-green:active { box-shadow: 0 0 0 0 #15803d; }
+
+        .btn-3d-blue {
+            background-color: #3b82f6;
+            box-shadow: 0 4px 0 0 #1d4ed8;
+        }
+        .btn-3d-blue:hover { background-color: #60a5fa; }
+        .btn-3d-blue:active { box-shadow: 0 0 0 0 #1d4ed8; }
+
+        .btn-3d-purple {
+            background-color: #a855f7;
+            box-shadow: 0 4px 0 0 #6b21a8;
+        }
+        .btn-3d-purple:hover { background-color: #c084fc; }
+        .btn-3d-purple:active { box-shadow: 0 0 0 0 #6b21a8; }
+
+        /* Custom radio style for options */
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            background-color: #f1f5f9;
+            transform: translateX(4px);
+        }
+        .option-btn.selected {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .option-btn.correct {
+            border-color: #22c55e !important;
+            background-color: #f0fdf4 !important;
+            color: #15803d !important;
+        }
+        .option-btn.wrong {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #991b1b !important;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden bg-slate-50">
+
+    <!-- HEADER BRANDING -->
+    <header class="bg-white border-b border-slate-200 px-4 py-2 flex flex-wrap justify-between items-center z-20 shadow-sm shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="bg-gradient-to-tr from-sky-500 to-indigo-600 text-white p-2 rounded-xl font-black text-lg shadow-md">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+                <h1 class="font-extrabold text-base md:text-lg text-slate-800 leading-tight">
+                    Ms Lê Hằng English <span class="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full font-bold ml-1">IELTS READING MOCK TEST</span>
+                </h1>
+                <p class="text-xs text-slate-500 font-semibold flex items-center gap-1">
+                    <i class="fa-brands fa-whatsapp text-green-500 text-sm"></i> Đăng kí học tiếng Anh 1-12, IELTS vui lòng liên hệ Ms Lê Hằng: <span class="text-sky-600 font-bold">Zalo 0584 965 348</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Timer & Controls -->
+        <div class="flex items-center gap-3 mt-2 sm:mt-0">
+            <!-- Progress Pill -->
+            <div class="hidden md:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200 text-xs font-bold text-slate-600">
+                <span>Tiến độ:</span>
+                <div class="w-24 bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+                <span id="progress-text">0/13</span>
+            </div>
+
+            <!-- Timer Box -->
+            <div id="timer-box" class="flex items-center bg-amber-50 border border-amber-200 text-amber-700 px-3 py-1.5 rounded-xl font-black text-base shadow-sm">
+                <i class="fa-regular fa-clock mr-2 animate-pulse text-amber-600"></i>
+                <span id="timer-display">20:00</span>
+            </div>
+
+            <!-- Timer Action Button -->
+            <button id="timer-btn" onclick="toggleTimer()" class="btn-3d btn-3d-blue text-white px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1">
+                <i class="fa-solid fa-play" id="timer-btn-icon"></i>
+                <span id="timer-btn-text">BẮT ĐẦU</span>
+            </button>
+
+            <!-- Submit Button -->
+            <button onclick="confirmSubmit()" class="btn-3d btn-3d-green text-white px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>NỘP BÀI</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT - SPLIT SCREEN -->
+    <main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+
+        <!-- LEFT PANEL: READING PASSAGE -->
+        <section id="passage-panel" class="w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 bg-white">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <!-- Title Header -->
+                <div class="border-b border-slate-100 pb-4">
+                    <span class="text-xs font-black uppercase tracking-widest text-sky-600 bg-sky-50 px-2.5 py-1 rounded-md">Passage 2</span>
+                    <h2 class="text-2xl font-black text-slate-800 mt-2">The return of the black-footed ferret</h2>
+                    <p class="text-slate-500 text-sm font-semibold italic mt-1">The rise, fall, and rise of one of North America’s rarest mammals</p>
+                </div>
+
+                <!-- Paragraphs List -->
+                <div class="space-y-6 text-slate-700 text-base leading-relaxed">
+
+                    <!-- Para A -->
+                    <div id="para-A" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">A</strong> <span id="text-A">The black-footed ferret (Mustela nigripes) is a small carnivorous mammal, similar in length to a domestic cat, and is the only ferret species native to North America. For at least 100,000 years they lived in an area that extended almost uninterrupted from southern Canada to northern Mexico. But numbers fell dramatically throughout the 19th and 20th centuries, to such an extent that the black-footed ferret was declared ‘possibly extinct’. Then, almost miraculously, it returned from the dead.</span></p>
+                        <button onclick="toggleTranslation('trans-A')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-A" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Chồn chân đen (Mustela nigripes) là một loài động vật ăn thịt nhỏ, có chiều dài tương tự như mèo nhà, và là loài chồn duy nhất có nguồn gốc từ Bắc Mỹ. Trong ít nhất 100.000 năm, chúng đã sống ở một khu vực trải dài hầu như không liên tục từ miền nam Canada đến miền bắc Mexico. Nhưng số lượng đã giảm đáng kể trong suốt thế kỷ 19 và 20, đến mức chồn chân đen bị tuyên bố là 'có thể đã tuyệt chủng'. Sau đó, gần như kỳ diệu, nó đã trở lại từ cõi chết.
+                        </div>
+                    </div>
+
+                    <!-- Para B -->
+                    <div id="para-B" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">B</strong> <span id="text-B">Within the genus Mustela, the ferret belongs to the subgenus Putorius, of which there are only three extant species: the European polecat; the Siberian polecat; and the black-footed ferret. The European polecat lives in open forests and meadows, and is thought to be the ancestor of the domestic ferret. The Siberian polecat looks more similar to the black-footed ferret, and leads a similar life on open grasslands and semidesert regions across Russia, China and Siberia.</span></p>
+                        <button onclick="toggleTranslation('trans-B')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-B" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Trong chi Mustela, chồn thuộc chi phụ Putorius, trong đó chỉ có ba loài còn tồn tại: chồn mông châu Âu; chồn mông Siberia; và chồn chân đen. Chồn mông châu Âu sống ở các khu rừng thưa và đồng cỏ, và được cho là tổ tiên của chồn nhà. Chồn mông Siberia trông giống chồn chân đen hơn, và có cuộc sống tương tự trên các đồng cỏ mở và vùng bán hoang mạc khắp Nga, Trung Quốc và Siberia.
+                        </div>
+                    </div>
+
+                    <!-- Para C -->
+                    <div id="para-C" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">C</strong> <span id="text-C">Ferrets probably evolved in Europe between three and four million years ago, and dispersed into North America across an ice-age land bridge at least two million years ago. They then advanced south-eastward to the Great Plains through ice-free passageways. The black-footed ferret’s history in North America is inextricably linked to the creature which became almost its sole prey — the prairie dog. These small rodents are a type of ground squirrel which live in networks of underground tunnels, known as burrows. The black-footed ferret’s short legs and long, slim body make it superbly adapted for life in the burrow systems of its prey.</span></p>
+                        <button onclick="toggleTranslation('trans-C')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-C" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Chồn có thể đã tiến hóa ở châu Âu khoảng ba đến bốn triệu năm trước, và phát tán sang Bắc Mỹ qua một cầu băng trong thời kỳ băng hà ít nhất hai triệu năm trước. Sau đó chúng tiến về phía đông nam đến Đại Bình nguyên Duyên hải thông qua các hành lang không có băng. Lịch sử của chồn chân đen ở Bắc Mỹ gắn liền không thể tách rời với sinh vật trở thành con mồi gần như duy nhất của nó — chó đồng cỏ. Những loài gặm nhấm nhỏ này là một loại sóc đất sống trong các hệ thống đường hầm dưới lòng đất, được gọi là hang. Đôi chân ngắn và thân hình dài, thon của chồn chân đen giúp nó thích nghi tuyệt vời với cuộc sống trong hệ thống hang của con mồi.
+                        </div>
+                    </div>
+
+                    <!-- Para D -->
+                    <div id="para-D" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">D</strong> <span id="text-D">Spending virtually all their time underground, black-footed ferrets have always been elusive. Ferrets are never mentioned in accounts of the early explorers or pioneers who crossed the Great Plains by wagon train during the early to mid-1800s. They were, however, occasionally listed in records kept by fur companies in the upper Missouri River basin during that period. Black-footed ferrets were not officially recognized by scientists until 1851, when a description and drawing of one featured in a book by the renowned naturalist John James Audubon and Reverend John Bachman. For over two decades, no other specimens were seen, and scientists even began to question their existence. Then, in 1874, a Dr Elliott Coues issued a request for specimens through the popular magazine The American Sportsman, and was soon rewarded. With these he was able to add to Audubon’s description, and confirm the existence of the black-footed ferret.</span></p>
+                        <button onclick="toggleTranslation('trans-D')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-D" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Dành hầu như toàn bộ thời gian dưới lòng đất, chồn chân đen luôn rất khó bắt gặp. Chồn không bao giờ được nhắc đến trong các tài liệu của những nhà khám phá hay người tiên phong sớm nhất đã vượt qua Đại Bình nguyên bằng đoàn xe ngựa từ đầu đến giữa những năm 1800. Tuy nhiên, đôi khi chúng được liệt kê trong hồ sơ do các công ty lông thú lưu giữ ở lưu vực thượng nguồn sông Missouri trong thời kỳ đó. Chồn chân đen chưa từng được giới khoa học chính thức công nhận cho đến năm 1851, khi mô tả và hình vẽ của một con xuất hiện trong cuốn sách của nhà tự nhiên học nổi tiếng John James Audubon và Mục sư John Bachman. Trong hơn hai thập kỷ, không còn mẫu vật nào khác được nhìn thấy, và các nhà khoa học thậm chí bắt đầu nghi ngờ sự tồn tại của chúng. Sau đó, vào năm 1874, Bác sĩ Elliott Coues đã phát động một lời kêu gọi thu thập mẫu vật thông qua tạp chí phổ biến The American Sportsman, và nhanh chóng nhận được kết quả. Với những mẫu vật này, ông đã có thể bổ sung vào mô tả của Audubon và xác nhận sự tồn tại của chồn chân đen.
+                        </div>
+                    </div>
+
+                    <!-- Para E -->
+                    <div id="para-E" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">E</strong> <span id="text-E">In the decades that followed, European settlement across North America changed the landscape dramatically, with vast areas being transformed into crop and grazing land. As agriculture and ranching expanded, the black-footed ferret’s main prey, the prairie dog, became a target for extermination, and was eventually eradicated from 98% of its original range. The result was devastating for black-footed ferret populations throughout the continent. Even today, the prairie dog is still trapped and poisoned, because ranchers believe that it competes with livestock for grass — a notion that belies recent research showing that prairie dogs and cattle feed on different plants.</span></p>
+                        <button onclick="toggleTranslation('trans-E')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-E" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Trong những thập kỷ tiếp theo, sự định cư của người châu Âu trên khắp Bắc Mỹ đã làm thay đổi cảnh quan một cách mạnh mẽ, với những vùng đất rộng lớn bị biến đổi thành đất trồng trọt và chăn thả. Khi nông nghiệp và chăn nuôi gia súc mở rộng, con mồi chính của chồn chân đen là chó đồng cỏ đã trở thành mục tiêu tiêu diệt, và cuối cùng bị xóa sổ khỏi 98% diện tích phân bố ban đầu của nó. Kết quả thật thảm khốc đối với các quần thể chồn chân đen trên toàn lục địa. Ngay cả ngày nay, chó đồng cỏ vẫn bị bẫy và đánh độc, vì các chủ trang trại tin rằng nó cạnh tranh cỏ với gia súc — một quan niệm trái ngược với các nghiên cứu gần đây cho thấy chó đồng cỏ và gia súc ăn các loại thực vật khác nhau.
+                        </div>
+                    </div>
+
+                    <!-- Para F -->
+                    <div id="para-F" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">F</strong> <span id="text-F">As late as the 1950s, black-footed ferrets were still thought to occur in low densities throughout most of their historic range. However, by the 1960s, the only known population was a small colony in south-western South Dakota. In 1967, the US Fish and Wildlife Service classified the black-footed ferret as an endangered species, and in 1974 the South Dakota colony disappeared. Finally, in January 1979, the last ferret in a captive-breeding programme died — making the black-footed ferret the first mammal to be declared extinct in the Northern Hemisphere in the 20th century.</span></p>
+                        <button onclick="toggleTranslation('trans-F')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-F" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Vào muộn nhất là những năm 1950, chồn chân đen vẫn được cho là xuất hiện với mật độ thấp trên hầu hết phạm vi lịch sử của chúng. Tuy nhiên, đến những năm 1960, quần thể duy nhất được biết đến là một đàn nhỏ ở tây nam bang South Dakota. Năm 1967, Cơ quan Cá và Động vật Hoang dã Hoa Kỳ đã xếp chồn chân đen vào danh sách loài có nguy cơ tuyệt chủng, và năm 1974 đàn chồn ở South Dakota đã biến mất. Cuối cùng, vào tháng 1 năm 1979, con chồn cuối cùng trong chương trình nhân giống nuôi nhốt đã chết — đưa chồn chân đen trở thành loài động vật có vú đầu tiên tuyên bố tuyệt chủng ở Bắc Bán cầu trong thế kỷ 20.
+                        </div>
+                    </div>
+
+                    <!-- Para G -->
+                    <div id="para-G" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">G</strong> <span id="text-G">But that was not the end of the story. In 1981, a farm dog called Shep carried an odd-looking creature to its owner’s ranch house in Meeteetse, Wyoming. The rancher put the carcass in his fridge and alerted state officials. The dog had found a black-footed ferret — which led to efforts again being made to save the species. An intensive search in the region led to the discovery of a 130-strong population. This wild colony thrived for a while, but disaster struck again and the number of animals was drastically reduced by the disease distemper — probably contracted from domestic dogs. In 1985, in a final bid to save the species, the remaining 18 individuals in the colony were trapped for a new captive-breeding programme. This project was successful, and there are now more than 2,000 black-footed ferrets in captivity across the US and Canada.</span></p>
+                        <button onclick="toggleTranslation('trans-G')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-G" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Nhưng đó chưa phải là kết thúc của câu chuyện. Năm 1981, một chú chó trang trại tên Shep đã tha một sinh vật kỳ lạ về nhà chủ ở Meeteetse, Wyoming. Chủ trang trại đã cất xác con vật vào tủ lạnh và báo cho quan chức tiểu bang. Chú chó đã tìm thấy một con chồn chân đen — điều này dẫn đến những nỗ lực mới nhằm cứu loài này. Một cuộc tìm kiếm ráo riết trong khu vực đã dẫn đến việc phát hiện một quần thể gồm 130 con. Đàn chồn hoang dã này phát triển tốt trong một thời gian, nhưng tai họa lại ập đến và số lượng động vật đã bị giảm đáng kể do bệnh carê (distemper) — có thể lây từ chó nhà. Năm 1985, trong nỗ lực cuối cùng để cứu loài này, 18 cá thể còn lại trong đàn đã được bẫy để phục vụ chương trình nhân giống nuôi nhốt mới. Dự án này đã thành công, và hiện có hơn 2.000 con chồn chân đen trong môi trường nuôi nhốt trên khắp Hoa Kỳ và Canada.
+                        </div>
+                    </div>
+
+                    <!-- Para H -->
+                    <div id="para-H" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">H</strong> <span id="text-H">A reintroduction programme began in 1991. Before they can be reintroduced into their natural habitat, captive ferrets have to learn to hunt and escape from predators. They are first held in pens on the prairie, where they are fed prairie dog meat. Once the ferrets associate these animals with food, keepers unleash live prey into the pens, and they soon realise that they must hunt or go hungry. Then, to get the ferrets used to living underground, they have to be tempted into the holes with food.</span></p>
+                        <button onclick="toggleTranslation('trans-H')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-H" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Chương trình tái thả tái nhập tản tự nhiên bắt đầu vào năm 1991. Trước khi có thể tái thả vào môi trường sống tự nhiên, chồn nuôi nhốt phải học cách săn mồi và trốn thoát khỏi kẻ thù tự nhiên. Ban đầu chúng được giữ trong các chuồng quây trên đồng cỏ, nơi chúng được cho ăn thịt chó đồng cỏ. Một khi chồn gắn kết loài vật này với thức ăn, người nuôi sẽ thả con mồi sống vào chuồng, và chúng nhanh chóng nhận ra rằng mình phải săn mồi hoặc chịu đói. Sau đó, để chồn quen với việc sống dưới lòng đất, người ta phải dùng thức ăn dụ chúng vào các hang.
+                        </div>
+                    </div>
+
+                    <!-- Para I -->
+                    <div id="para-I" class="passage-block p-3 rounded-xl transition-all">
+                        <p class="mb-2"><strong class="text-sky-600 font-extrabold text-lg mr-1">I</strong> <span id="text-I">Reintroduction programmes are now underway across the central USA, but there is one location that is key. The Janos area on the US-Mexico border is the obvious place to reactivate the continent’s wild black-footed ferret population, being one of the most important remaining grassland ecosystems in the Americas, and home to an abundance of prairie dogs. In the last report, the future of the black-footed ferret finally looks promising.</span></p>
+                        <button onclick="toggleTranslation('trans-I')" class="text-xs text-purple-600 font-bold hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-language"></i> Mở dịch đoạn này 🌟
+                        </button>
+                        <div id="trans-I" class="hidden mt-2 p-3 bg-slate-50 border-l-4 border-purple-400 rounded-r-lg text-sm text-slate-600 italic">
+                            Các chương trình tái thả hiện đang được tiến hành trên khắp miền trung Hoa Kỳ, nhưng có một vị trí mang tính then chốt. Khu vực Janos ở biên giới Mỹ - Mexico là nơi rõ ràng nhất để khôi phục quần thể chồn chân đen hoang dã của lục địa, vì đây là một trong những hệ sinh thái đồng cỏ còn lại quan trọng nhất ở Châu Mỹ và là ngôi nhà của lượng lớn chó đồng cỏ. Trong báo cáo mới nhất, tương lai của chồn chân đen cuối cùng trông rất hứa hẹn.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- GLOSSARY TABLE -->
+                <div class="mt-10 border-t-2 border-slate-200 pt-6">
+                    <h3 class="text-lg font-black text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-book-bookmark text-purple-600"></i> Bảng Từ Vựng Academic (Glossary)
+                    </h3>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                        <table class="w-full text-left text-xs sm:text-sm">
+                            <thead class="bg-purple-50 text-purple-900 font-extrabold border-b border-purple-100">
+                                <tr>
+                                    <th class="p-2.5">Từ vựng</th>
+                                    <th class="p-2.5">Loại từ</th>
+                                    <th class="p-2.5">Nghĩa tiếng Việt ~ Đồng nghĩa (Synonym)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 font-semibold text-slate-600 bg-white">
+                                <tr><td class="p-2.5 font-bold text-sky-700">Carnivorous</td><td class="p-2.5">adj</td><td class="p-2.5">Ăn thịt (~ Meat-eating)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Native</td><td class="p-2.5">adj</td><td class="p-2.5">Bản địa (~ Indigenous)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Uninterrupted</td><td class="p-2.5">adj</td><td class="p-2.5">Liên tục, không gián đoạn (~ Continuous)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Extinct</td><td class="p-2.5">adj</td><td class="p-2.5">Tuyệt chủng (~ Died out)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Extant</td><td class="p-2.5">adj</td><td class="p-2.5">Còn tồn tại (~ Surviving, existing)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Ancestor</td><td class="p-2.5">n</td><td class="p-2.5">Tổ tiên (~ Forefather)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Evolve</td><td class="p-2.5">v</td><td class="p-2.5">Tiến hóa (~ Develop)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Disperse</td><td class="p-2.5">v</td><td class="p-2.5">Phát tán, phân tán (~ Scatter, spread)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Inextricably</td><td class="p-2.5">adv</td><td class="p-2.5">Không thể tách rời (~ Inseparably)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Prey</td><td class="p-2.5">n</td><td class="p-2.5">Con mồi (~ Victim, target)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Rodents</td><td class="p-2.5">n</td><td class="p-2.5">Loài gặm nhấm</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Burrows</td><td class="p-2.5">n</td><td class="p-2.5">Hang dưới đất (~ Underground tunnels)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Adapt</td><td class="p-2.5">v</td><td class="p-2.5">Thích nghi (~ Adjust, suit)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Elusive</td><td class="p-2.5">adj</td><td class="p-2.5">Khó bắt gặp, bí ẩn (~ Hard to find/catch)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Pioneers</td><td class="p-2.5">n</td><td class="p-2.5">Người tiên phong (~ Early settlers)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Specimens</td><td class="p-2.5">n</td><td class="p-2.5">Mẫu vật (~ Samples)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Extermination</td><td class="p-2.5">n</td><td class="p-2.5">Sự tiêu diệt tận gốc (~ Eradication, destruction)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Eradicated</td><td class="p-2.5">v</td><td class="p-2.5">Bị xóa sổ (~ Wiped out, eliminated)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Devastating</td><td class="p-2.5">adj</td><td class="p-2.5">Thảm khốc, tàn phá (~ Catastrophic)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Belies</td><td class="p-2.5">v</td><td class="p-2.5">Trái ngược với, mâu thuẫn (~ Contradicts)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Endangered</td><td class="p-2.5">adj</td><td class="p-2.5">Có nguy cơ tuyệt chủng (~ Threatened)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Captive-breeding</td><td class="p-2.5">n</td><td class="p-2.5">Nhân giống nuôi nhốt (~ Breeding in captivity)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Thrived</td><td class="p-2.5">v</td><td class="p-2.5">Phát triển mạnh mẽ (~ Flourished)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Distemper</td><td class="p-2.5">n</td><td class="p-2.5">Bệnh carê (ở động vật)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Reintroduction</td><td class="p-2.5">n</td><td class="p-2.5">Sự tái thả vào tự nhiên (~ Release back)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Predators</td><td class="p-2.5">n</td><td class="p-2.5">Kẻ săn mồi (~ Natural hunters)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Reactivate</td><td class="p-2.5">v</td><td class="p-2.5">Khôi phục, kích hoạt lại (~ Restore, revive)</td></tr>
+                                <tr><td class="p-2.5 font-bold text-sky-700">Promising</td><td class="p-2.5">adj</td><td class="p-2.5">Đầy hứa hẹn (~ Encouraging, hopeful)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL: EXERCISES -->
+        <section id="exercise-panel" class="w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto p-4 md:p-6 bg-slate-50">
+            <div class="max-w-2xl mx-auto space-y-8 pb-12">
+
+                <!-- SECTION 1: FILL IN THE BLANKS -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div>
+                        <span class="text-xs font-black uppercase text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">Questions 14–16</span>
+                        <h3 class="text-base font-extrabold text-slate-800 mt-2">Complete the sentences below.</h3>
+                        <p class="text-xs text-slate-500 font-bold mt-1">Write <span class="text-red-500 uppercase">NO MORE THAN TWO WORDS</span> from the passage for each answer.</p>
+                    </div>
+
+                    <div class="space-y-4 text-sm font-semibold text-slate-700">
+                        <!-- Q14 -->
+                        <div id="q14-card" class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                            <p class="leading-relaxed">
+                                <strong>14.</strong> The black-footed ferret shares most characteristics with its relative, the 
+                                <input type="text" id="q14" oninput="updateProgress()" class="mx-1 border-2 border-slate-300 focus:border-sky-500 rounded-lg px-2 py-1 text-sm font-bold text-sky-800 w-44 outline-none transition" placeholder="nhập đáp án...">.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <button onclick="checkIndividual('q14')" class="btn-3d btn-3d-purple text-white text-xs px-3 py-1 rounded-lg font-bold">Check</button>
+                                <span id="q14-status" class="text-xs font-black"></span>
+                            </div>
+                            <div id="q14-exp" class="hidden text-xs bg-slate-100 p-3 rounded-lg border-l-4 border-sky-500 space-y-1"></div>
+                        </div>
+
+                        <!-- Q15 -->
+                        <div id="q15-card" class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                            <p class="leading-relaxed">
+                                <strong>15.</strong> North American ferrets are thought to have originally come from 
+                                <input type="text" id="q15" oninput="updateProgress()" class="mx-1 border-2 border-slate-300 focus:border-sky-500 rounded-lg px-2 py-1 text-sm font-bold text-sky-800 w-44 outline-none transition" placeholder="nhập đáp án...">.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <button onclick="checkIndividual('q15')" class="btn-3d btn-3d-purple text-white text-xs px-3 py-1 rounded-lg font-bold">Check</button>
+                                <span id="q15-status" class="text-xs font-black"></span>
+                            </div>
+                            <div id="q15-exp" class="hidden text-xs bg-slate-100 p-3 rounded-lg border-l-4 border-sky-500 space-y-1"></div>
+                        </div>
+
+                        <!-- Q16 -->
+                        <div id="q16-card" class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                            <p class="leading-relaxed">
+                                <strong>16.</strong> The 
+                                <input type="text" id="q16" oninput="updateProgress()" class="mx-1 border-2 border-slate-300 focus:border-sky-500 rounded-lg px-2 py-1 text-sm font-bold text-sky-800 w-44 outline-none transition" placeholder="nhập đáp án..."> 
+                                is the black-footed ferret’s primary source of food throughout their time in North America.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <button onclick="checkIndividual('q16')" class="btn-3d btn-3d-purple text-white text-xs px-3 py-1 rounded-lg font-bold">Check</button>
+                                <span id="q16-status" class="text-xs font-black"></span>
+                            </div>
+                            <div id="q16-exp" class="hidden text-xs bg-slate-100 p-3 rounded-lg border-l-4 border-sky-500 space-y-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: MATCHING DATES (17-22) -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div>
+                        <span class="text-xs font-black uppercase text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">Questions 17–22</span>
+                        <h3 class="text-base font-extrabold text-slate-800 mt-2">Match each event with the correct date, A–H.</h3>
+                    </div>
+
+                    <!-- Date Reference Box -->
+                    <div class="grid grid-cols-4 gap-2 bg-slate-100 p-3 rounded-xl text-xs font-bold text-slate-700">
+                        <div>A 1851</div><div>B 1874</div><div>C 1967</div><div>D 1974</div>
+                        <div>E 1979</div><div>F 1981</div><div>G 1985</div><div>H 1991</div>
+                    </div>
+
+                    <div class="space-y-4 text-sm font-semibold text-slate-700">
+                        <!-- Questions 17 to 22 -->
+                        <script>
+                            const matchQuestions = [
+                                { id: 'q17', text: '17. An appeal for evidence of black-footed ferrets was published.' },
+                                { id: 'q18', text: '18. A scheme for releasing captive-born black-footed ferrets into the wild was launched.' },
+                                { id: 'q19', text: '19. The black-footed ferret first appeared in a scientific work.' },
+                                { id: 'q20', text: '20. The discovery of a single black-footed ferret led to renewed hope for the species.' },
+                                { id: 'q21', text: '21. North America’s last wild-born black-footed ferrets were taken into captivity.' },
+                                { id: 'q22', text: '22. Efforts to save the black-footed ferret were officially announced as having failed.' }
+                            ];
+                        </script>
+
+                        <!-- Generated Match Questions -->
+                        <div id="match-q-container" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: PARAGRAPH MATCHING (23-26) -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div>
+                        <span class="text-xs font-black uppercase text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">Questions 23–26</span>
+                        <h3 class="text-base font-extrabold text-slate-800 mt-2">Which paragraph contains the following information?</h3>
+                        <p class="text-xs text-slate-500 font-bold mt-1">Choose the correct letter, <span class="text-sky-600 uppercase">A–I</span>.</p>
+                    </div>
+
+                    <div id="para-match-container" class="space-y-3 text-sm font-semibold text-slate-700"></div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL SCORE SUMMARY -->
+    <div id="score-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 text-center shadow-2xl space-y-5 transform transition-all scale-95 border-4 border-sky-400">
+            <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-yellow-300 text-white rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg border-4 border-white">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-black text-slate-800">KẾT QUẢ BÀI LÀM</h3>
+                <p class="text-xs text-slate-500 font-bold">IELTS Reading Mock Test - Ms Lê Hằng English</p>
+            </div>
+
+            <!-- Score Display Box -->
+            <div class="grid grid-cols-2 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <div class="border-r border-slate-200 pr-2">
+                    <span class="text-xs font-bold text-slate-400 uppercase">Số câu đúng</span>
+                    <p class="text-3xl font-black text-emerald-600" id="final-score">0/13</p>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-slate-400 uppercase">Band điểm IELTS</span>
+                    <p class="text-3xl font-black text-sky-600" id="final-band">0.0</p>
+                </div>
+            </div>
+
+            <!-- Feedback Comment -->
+            <div id="final-feedback" class="text-sm font-bold text-slate-700 p-3 bg-sky-50 rounded-xl border border-sky-200">
+                Xuất sắc! Bạn đã đạt kết quả rất cao!
+            </div>
+
+            <!-- Contact Box -->
+            <div class="text-xs text-slate-500 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+                <i class="fa-solid fa-star text-amber-500 mr-1"></i> Liên hệ học IELTS Ms Lê Hằng: <span class="font-extrabold text-slate-800">Zalo 0584 965 348</span>
+            </div>
+
+            <button onclick="closeModal()" class="btn-3d btn-3d-blue text-white w-full py-3 rounded-2xl font-extrabold text-sm uppercase tracking-wider">
+                Xem chi tiết lời giải
+            </button>
+        </div>
+    </div>
+
+    <!-- AUDIO EFFECTS USING WEB AUDIO API -->
+    <script>
+        // Web Audio API Sound Generator
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+        }
+
+        function playDing() {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3); // C6
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        function playWrongSound() {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } catch(e) {}
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
+            }
+        }
+    </script>
+
+    <!-- MAIN APP LOGIC -->
+    <script>
+        // ANSWERS DATA & EXPLANATIONS
+        const answerKey = {
+            q14: {
+                correct: ["siberian polecat"],
+                para: "B",
+                quote: "The Siberian polecat looks more similar to the black-footed ferret, and leads a similar life...",
+                trans: "Chồn mông Siberia trông giống chồn chân đen hơn, và có cuộc sống tương tự...",
+                synonyms: "shares most characteristics = looks more similar to"
+            },
+            q15: {
+                correct: ["europe"],
+                para: "C",
+                quote: "Ferrets probably evolved in Europe between three and four million years ago, and dispersed into North America...",
+                trans: "Chồn có thể đã tiến hóa ở châu Âu khoảng ba đến bốn triệu năm trước, và phát tán sang Bắc Mỹ...",
+                synonyms: "originally come from = evolved in... and dispersed into"
+            },
+            q16: {
+                correct: ["prairie dog"],
+                para: "C",
+                quote: "The black-footed ferret’s history in North America is inextricably linked to the creature which became almost its sole prey — the prairie dog.",
+                trans: "Lịch sử của chồn chân đen ở Bắc Mỹ gắn liền với sinh vật trở thành con mồi gần như duy nhất của nó — chó đồng cỏ.",
+                synonyms: "primary source of food = sole prey"
+            },
+            q17: {
+                correct: "B",
+                para: "D",
+                quote: "Then, in 1874, a Dr Elliott Coues issued a request for specimens through the popular magazine...",
+                trans: "Sau đó, vào năm 1874, Bác sĩ Elliott Coues đã phát động một lời kêu gọi thu thập mẫu vật...",
+                synonyms: "appeal for evidence = request for specimens"
+            },
+            q18: {
+                correct: "H",
+                para: "H",
+                quote: "A reintroduction programme began in 1991.",
+                trans: "Chương trình tái thả tái nhập tản tự nhiên bắt đầu vào năm 1991.",
+                synonyms: "scheme for releasing captive-born ferrets = reintroduction programme"
+            },
+            q19: {
+                correct: "A",
+                para: "D",
+                quote: "Black-footed ferrets were not officially recognized by scientists until 1851, when a description and drawing of one featured in a book...",
+                trans: "Chồn chân đen chưa từng được giới khoa học chính thức công nhận cho đến năm 1851, khi mô tả xuất hiện trong cuốn sách...",
+                synonyms: "first appeared in a scientific work = featured in a book by naturalist"
+            },
+            q20: {
+                correct: "F",
+                para: "G",
+                quote: "In 1981, a farm dog called Shep carried an odd-looking creature... led to efforts again being made to save the species.",
+                trans: "Năm 1981, chú chó trang trại đã tha một sinh vật kỳ lạ về... điều này dẫn đến những nỗ lực mới nhằm cứu loài này.",
+                synonyms: "discovery of a single ferret = dog carried an odd-looking creature"
+            },
+            q21: {
+                correct: "G",
+                para: "G",
+                quote: "In 1985, in a final bid to save the species, the remaining 18 individuals in the colony were trapped for a new captive-breeding programme.",
+                trans: "Năm 1985, 18 cá thể còn lại trong đàn đã được bẫy để phục vụ chương trình nhân giống nuôi nhốt.",
+                synonyms: "taken into captivity = trapped for captive-breeding programme"
+            },
+            q22: {
+                correct: "E",
+                para: "F",
+                quote: "Finally, in January 1979, the last ferret in a captive-breeding programme died — making the black-footed ferret the first mammal to be declared extinct...",
+                trans: "Cuối cùng, vào tháng 1 năm 1979, con chồn cuối cùng đã chết — đưa chồn chân đen trở thành loài động vật bị tuyên bố tuyệt chủng...",
+                synonyms: "efforts announced as having failed = declared extinct"
+            },
+            q23: {
+                correct: "E",
+                para: "E",
+                quote: "As agriculture and ranching expanded, the black-footed ferret’s main prey, the prairie dog, became a target for extermination... The result was devastating...",
+                trans: "Khi nông nghiệp và chăn nuôi mở rộng, con mồi chính bị tiêu diệt... Kết quả thật thảm khốc...",
+                synonyms: "reasons for sharp decrease = target for extermination"
+            },
+            q24: {
+                correct: "H",
+                para: "H",
+                quote: "Before they can be reintroduced... captive ferrets have to learn to hunt and escape from predators... fed prairie dog meat... unleash live prey...",
+                trans: "Trước khi tái thả... chồn nuôi nhốt phải học cách săn mồi... thả con mồi sống...",
+                synonyms: "procedure taught to survive = learn to hunt and escape from predators"
+            },
+            q25: {
+                correct: "D",
+                para: "D",
+                quote: "...for over two decades, no other specimens were seen, and scientists even began to question their existence.",
+                trans: "...các nhà khoa học thậm chí bắt đầu nghi ngờ sự tồn tại của chúng.",
+                synonyms: "doubts about whether there was = question their existence"
+            },
+            q26: {
+                correct: "I",
+                para: "I",
+                quote: "The Janos area on the US-Mexico border is the obvious place to reactivate the continent’s wild black-footed ferret population...",
+                trans: "Khu vực Janos ở biên giới Mỹ - Mexico là nơi rõ ràng nhất để khôi phục quần thể...",
+                synonyms: "ideal site for release = obvious place to reactivate"
+            }
+        };
+
+        // RENDER MATCHING QUESTIONS (17-22)
+        const matchContainer = document.getElementById('match-q-container');
+        matchQuestions.forEach(q => {
+            const div = document.createElement('div');
+            div.className = 'p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2';
+            div.id = `${q.id}-card`;
+            div.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <p class="leading-relaxed flex-1">${q.text}</p>
+                    <select id="${q.id}" onchange="updateProgress()" class="border-2 border-slate-300 focus:border-sky-500 rounded-lg px-2 py-1 text-sm font-bold text-sky-800 bg-white outline-none">
+                        <option value="">Chọn ngày...</option>
+                        <option value="A">A (1851)</option>
+                        <option value="B">B (1874)</option>
+                        <option value="C">C (1967)</option>
+                        <option value="D">D (1974)</option>
+                        <option value="E">E (1979)</option>
+                        <option value="F">F (1981)</option>
+                        <option value="G">G (1985)</option>
+                        <option value="H">H (1991)</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button onclick="checkIndividual('${q.id}')" class="btn-3d btn-3d-purple text-white text-xs px-3 py-1 rounded-lg font-bold">Check</button>
+                    <span id="${q.id}-status" class="text-xs font-black"></span>
+                </div>
+                <div id="${q.id}-exp" class="hidden text-xs bg-slate-100 p-3 rounded-lg border-l-4 border-sky-500 space-y-1"></div>
+            `;
+            matchContainer.appendChild(div);
+        });
+
+        // RENDER PARAGRAPH MATCHING (23-26)
+        const paraMatchQuestions = [
+            { id: 'q23', text: '23. Reasons for the sharp decrease in black-footed ferret populations.' },
+            { id: 'q24', text: '24. The procedure by which black-footed ferrets are taught to survive in the wild.' },
+            { id: 'q25', text: '25. Mention of doubts about whether there was such an animal as a black-footed ferret.' },
+            { id: 'q26', text: '26. Reference to a site which is ideal for the release of black-footed ferrets into the wild.' }
+        ];
+
+        const paraMatchContainer = document.getElementById('para-match-container');
+        paraMatchQuestions.forEach(q => {
+            const div = document.createElement('div');
+            div.className = 'p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2';
+            div.id = `${q.id}-card`;
+            div.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <p class="leading-relaxed flex-1">${q.text}</p>
+                    <select id="${q.id}" onchange="updateProgress()" class="border-2 border-slate-300 focus:border-sky-500 rounded-lg px-2 py-1 text-sm font-bold text-sky-800 bg-white outline-none">
+                        <option value="">Chọn đoạn...</option>
+                        <option value="A">Đoạn A</option>
+                        <option value="B">Đoạn B</option>
+                        <option value="C">Đoạn C</option>
+                        <option value="D">Đoạn D</option>
+                        <option value="E">Đoạn E</option>
+                        <option value="F">Đoạn F</option>
+                        <option value="G">Đoạn G</option>
+                        <option value="H">Đoạn H</option>
+                        <option value="I">Đoạn I</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button onclick="checkIndividual('${q.id}')" class="btn-3d btn-3d-purple text-white text-xs px-3 py-1 rounded-lg font-bold">Check</button>
+                    <span id="${q.id}-status" class="text-xs font-black"></span>
+                </div>
+                <div id="${q.id}-exp" class="hidden text-xs bg-slate-100 p-3 rounded-lg border-l-4 border-sky-500 space-y-1"></div>
+            `;
+            paraMatchContainer.appendChild(div);
+        });
+
+        // TIMER SYSTEM
+        let timerSeconds = 20 * 60;
+        let timerInterval = null;
+        let isTimerRunning = false;
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timer-display').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimer() {
+            initAudio();
+            const btnText = document.getElementById('timer-btn-text');
+            const btnIcon = document.getElementById('timer-btn-icon');
+
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                btnText.textContent = "TIẾP TỤC";
+                btnIcon.className = "fa-solid fa-play";
+            } else {
+                isTimerRunning = true;
+                btnText.textContent = "TẠM DỪNG";
+                btnIcon.className = "fa-solid fa-pause";
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        alert("Đã hết giờ làm bài, vui lòng nộp bài nhé!");
+                        disableInputs();
+                    }
+                }, 1000);
+            }
+        }
+
+        function disableInputs() {
+            document.querySelectorAll('input, select, button:not(#score-modal button)').forEach(el => {
+                if (el.id !== 'timer-btn') el.disabled = true;
+            });
+        }
+
+        // PROGRESS CALCULATOR
+        function updateProgress() {
+            let answered = 0;
+            for (let i = 14; i <= 26; i++) {
+                const qId = `q${i}`;
+                const val = document.getElementById(qId)?.value.trim();
+                if (val && val !== "") answered++;
+            }
+            const pct = Math.round((answered / 13) * 100);
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+            document.getElementById('progress-text').textContent = `${answered}/13`;
+        }
+
+        // TOGGLE PARAGRAPH TRANSLATION
+        function toggleTranslation(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+
+        // LOCATE EVIDENCE IN READING PASSAGE
+        function locateEvidence(paraId) {
+            const targetPara = document.getElementById(`para-${paraId}`);
+            if (targetPara) {
+                // Remove existing targets
+                document.querySelectorAll('.evidence-target').forEach(e => e.classList.remove('evidence-target'));
+
+                // Add highlight class
+                targetPara.classList.add('evidence-target');
+
+                // Smooth scroll left panel
+                targetPara.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // CHECK INDIVIDUAL QUESTION
+        function checkIndividual(qId) {
+            const data = answerKey[qId];
+            const inputEl = document.getElementById(qId);
+            const statusEl = document.getElementById(`${qId}-status`);
+            const expEl = document.getElementById(`${qId}-exp`);
+
+            if (!inputEl) return;
+            const userVal = inputEl.value.trim().toLowerCase();
+
+            let isCorrect = false;
+            if (Array.isArray(data.correct)) {
+                isCorrect = data.correct.some(c => c.toLowerCase() === userVal);
+            } else {
+                isCorrect = data.correct.toLowerCase() === userVal;
+            }
+
+            expEl.classList.remove('hidden');
+            if (isCorrect) {
+                playDing();
+                triggerConfetti();
+                statusEl.textContent = "CHÍNH XÁC! 🎉";
+                statusEl.className = "text-xs font-black text-emerald-600";
+            } else {
+                playWrongSound();
+                statusEl.textContent = "CHƯA ĐÚNG! ❌";
+                statusEl.className = "text-xs font-black text-red-500";
+            }
+
+            const correctText = Array.isArray(data.correct) ? data.correct.join(" / ") : data.correct;
+
+            expEl.innerHTML = `
+                <div class="space-y-1">
+                    <p><strong class="text-slate-800">1. ĐÁP ÁN:</strong> <span class="font-extrabold text-emerald-600 uppercase">${correctText}</span></p>
+                    <p><strong class="text-slate-800">2. ĐOẠN CHỨA ĐÁP ÁN (Đoạn ${data.para}):</strong> <em class="text-slate-700">"${data.quote}"</em></p>
+                    <p><strong class="text-slate-800">3. DỊCH NGHĨA:</strong> <span class="text-slate-600">${data.trans}</span></p>
+                    <p><strong class="text-slate-800">4. CỤM TỪ ĐỒNG NGHĨA:</strong> <span class="text-purple-700 font-semibold">${data.synonyms}</span></p>
+                    <button onclick="locateEvidence('${data.para}')" class="mt-2 text-xs bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold px-3 py-1 rounded-md transition flex items-center gap-1 shadow-sm">
+                        <i class="fa-solid fa-crosshairs"></i> Định vị dẫn chứng 🎯
+                    </button>
+                </div>
+            `;
+        }
+
+        // CONVERT SCORE TO IELTS BAND
+        function getIELTSBand(score) {
+            if (score === 13) return "9.0";
+            if (score === 12) return "8.5";
+            if (score === 11) return "8.0";
+            if (score === 10) return "7.5";
+            if (score === 9) return "7.0";
+            if (score === 8) return "6.5";
+            if (score === 7) return "6.0";
+            if (score === 6) return "5.5";
+            if (score === 5) return "5.0";
+            if (score === 4) return "4.5";
+            if (score === 3) return "4.0";
+            return "3.5";
+        }
+
+        // CONFIRM & SUBMIT ENTIRE TEST
+        function confirmSubmit() {
+            let correctCount = 0;
+
+            for (let i = 14; i <= 26; i++) {
+                const qId = `q${i}`;
+                const data = answerKey[qId];
+                const inputEl = document.getElementById(qId);
+                const userVal = inputEl ? inputEl.value.trim().toLowerCase() : "";
+
+                let isCorrect = false;
+                if (Array.isArray(data.correct)) {
+                    isCorrect = data.correct.some(c => c.toLowerCase() === userVal);
+                } else {
+                    isCorrect = data.correct.toLowerCase() === userVal;
+                }
+
+                if (isCorrect) correctCount++;
+                checkIndividual(qId); // Show explanations for all
+            }
+
+            // Show score modal
+            const band = getIELTSBand(correctCount);
+            document.getElementById('final-score').textContent = `${correctCount}/13`;
+            document.getElementById('final-band').textContent = band;
+
+            let feedback = "Cố gắng hơn ở lần sau nhé! Hãy xem kỹ phần giải thích chi tiết bên dưới.";
+            if (correctCount >= 11) {
+                feedback = "Xuất sắc! Bạn có kỹ năng đọc hiểu và vốn từ vựng cực kỳ ấn tượng! 🎉";
+            } else if (correctCount >= 8) {
+                feedback = "Làm rất tốt! Bạn đã nắm chắc kiến thức bài đọc này! 👍";
+            }
+
+            document.getElementById('final-feedback').textContent = feedback;
+            document.getElementById('score-modal').classList.remove('hidden');
+
+            if (correctCount >= 8) triggerConfetti();
+        }
+
+        function closeModal() {
+            document.getElementById('score-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
